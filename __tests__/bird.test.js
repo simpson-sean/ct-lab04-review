@@ -24,9 +24,8 @@ describe('bird routes', () => {
       id: '1',
       ...polly,
 
-    });
-  
-  });
+    });  
+  }); // <---END CREATE BIRD
 
   //gets a bird by ID with GET
   it('gets a bird', async () => {
@@ -40,6 +39,33 @@ describe('bird routes', () => {
 
     expect(res.body).toEqual(jane);
 
+  }); // <--- END GET BIRD BY ID
+
+  it('gets all birds', async () => {
+    const polly = await bird_model.insert({
+      name: 'polly',
+      breed: 'mccaw',
+      age: 15,  
+    });
+
+    const jane = await bird_model.insert({
+      name: 'jane',
+      breed: 'cockatiel',
+      age: 4
+    });
+
+    const joe = await bird_model.insert({
+      name: 'joe',
+      breed: 'osprey',
+      age: 8,
+    });
+
+    return request(app)
+      .get('/api/v1/birds')
+      .then((res) => {
+        expect(res.body).toEqual([polly, jane, joe]);
+    });
+  
   });
 
 
