@@ -15,7 +15,7 @@ describe('bird routes', () => {
     return setup(pool);
   });
   
-  //creates a bird via POST
+  // ---------- CREATES A BIRD via POST ---------- 
   it('creates a bird', async () => {
     const polly = { name: 'polly', breed: 'mccaw', age: 15 };
     const res = await request(app).post('/api/v1/birds').send(polly);
@@ -25,9 +25,10 @@ describe('bird routes', () => {
       ...polly,
 
     });  
-  }); // <---END CREATE BIRD
+  });
+  // ---------- END CREATE BIRD BLOCK ----------
 
-  //gets a bird by ID with GET
+  // ---------- GETS SINGLE BIRD by ID with GET ----------
   it('gets a bird', async () => {
     const jane = await bird_model.insert({
       name: 'jane',
@@ -39,9 +40,10 @@ describe('bird routes', () => {
 
     expect(res.body).toEqual(jane);
 
-  }); // <--- END GET BIRD BY ID
+  }); 
+  // ---------- END GET BIRD BY ID ----------
 
-  // gets all birds via GET
+  // ---------- GETS ALL BIRDS via GET ----------
   it('gets all birds', async () => {
     const polly = await bird_model.insert({
       name: 'polly',
@@ -67,9 +69,10 @@ describe('bird routes', () => {
         expect(res.body).toEqual([polly, jane, joe]);
     });
   
-  }); // <---END OF GET ALL BIRDS BLOCK
+  }); 
+  // ---------- END OF GET ALL BIRDS BLOCK ----------
 
-  //updates a bird record via PUT
+  // ---------- UPDATES BIRD RECORD via PUT ----------
   it('updates a bird', async () => {
     const polly = await bird_model.insert({
       name: 'polly',
@@ -85,8 +88,9 @@ describe('bird routes', () => {
     expect(res.body).toEqual({...polly, age: 16});
   
   });
+  // ---------- END OF UPDATES BIRD BLOCK ----------
 
-  //deletes a bird via DELETE
+  // ---------- DELETE SINGLE BIRD via DELETE ----------
   it('deletes a bird', async () => {
     const bird = await bird_model.insert({
       name: 'polly',
@@ -101,8 +105,6 @@ describe('bird routes', () => {
     });
 
   })
+  // ---------- END DELETE SINGLE BIRD BLOCK ----------
 
-
-
-
-}) //<----END OF PARENT CODE BLOCK
+}) // <---------- END OF PARENT CODE BLOCK ---------->
