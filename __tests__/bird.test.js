@@ -14,7 +14,8 @@ describe('bird routes', () => {
   beforeEach(() => {
     return setup(pool);
   });
-
+  
+  //creates a bird via POST
   it('creates a bird', async () => {
     const polly = { name: 'polly', breed: 'mccaw', age: 15 };
     const res = await request(app).post('/api/v1/birds').send(polly);
@@ -26,6 +27,22 @@ describe('bird routes', () => {
     });
   
   });
+
+  //gets a bird by ID with GET
+  it('gets a bird', async () => {
+    const jane = await bird_model.insert({
+      name: 'jane',
+      breed: 'cockatiel',
+      age: 4,
+    })
+
+    const res = await request(app).get(`/api/v1/birds/${jane.id}`);
+
+    expect(res.body).toEqual(jane);
+
+  });
+
+
 
 
 }) //<----END OF PARENT CODE BLOCK
