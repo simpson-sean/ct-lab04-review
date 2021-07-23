@@ -86,6 +86,22 @@ describe('bird routes', () => {
   
   });
 
+  //deletes a bird via DELETE
+  it('deletes a bird', async () => {
+    const bird = await bird_model.insert({
+      name: 'polly',
+      breed: 'mccaw',
+      age: 15,
+    });
+
+    const res = await request(app).delete(`/api/v1/birds/${bird.id}`);
+
+    expect(res.body).toEqual({
+      message: `The bird ${bird.name} was removed.`
+    });
+
+  })
+
 
 
 
