@@ -41,6 +41,7 @@ describe('bird routes', () => {
 
   }); // <--- END GET BIRD BY ID
 
+  // gets all birds via GET
   it('gets all birds', async () => {
     const polly = await bird_model.insert({
       name: 'polly',
@@ -65,6 +66,23 @@ describe('bird routes', () => {
       .then((res) => {
         expect(res.body).toEqual([polly, jane, joe]);
     });
+  
+  }); // <---END OF GET ALL BIRDS BLOCK
+
+  //updates a bird record via PUT
+  it('updates a bird', async () => {
+    const polly = await bird_model.insert({
+      name: 'polly',
+      breed: 'mccaw',
+      age: 15,
+
+    });
+
+    const res = await request(app)
+      .put(`/api/v1/birds/${polly.id}`)
+      .send({ age: 16 });
+
+    expect(res.body).toEqual({...polly, age: 16});
   
   });
 
