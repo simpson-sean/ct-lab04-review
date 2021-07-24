@@ -3,6 +3,7 @@ import setup from '../data/setup.js';
 import request from 'supertest';
 import app from '../lib/app.js';
 import produce_model from '../lib/models/produce-model.js';
+import produce from '../lib/controllers/produce.js';
 
 
 // CRUD
@@ -24,8 +25,45 @@ describe('produce routes', () => {
           id: '1',
           ...apple,
       })
-  })
+  });
 
+  it('gets produce by id', async () => {
+      const apple = await produce_model.insert({
+          name: 'granny smith',
+          type: 'fruit',
+          in_season: true,
+      });
+
+      const res = await request(app).get(`/api/v1/produce/${apple.id}`);
+
+      expect(res.body).toEqual(apple);
+  });
+
+  it('gets all produce', async () => {
+      const apple = await produce_model.insert({
+          name: 'granny smith',
+          type: 'fruit',
+          in_season: true,
+      })
+
+      const cherry = await produce_model.insert({
+          name: 'ranier cherry',
+          type: 'fruit',
+          in_season: false,
+      })
+
+      const pepper = await produce_model.insert({
+          name: 'red pepper',
+          type: 'vegetable',
+          in_season: true,
+      })
+
+      return request(app)
+       .get('/api/v1/produce')
+       .then((res) => {
+           expect(res.body).toEqual([ apple, cherry, pepper ]);
+       })
+  })
 
 
 
