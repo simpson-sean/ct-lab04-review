@@ -16,7 +16,7 @@ describe('car routes', () => {
     return setup(pool);
   });
 
-  it('creates a car', async () => {
+    it('creates a car', async () => {
       const subaru = { make: 'subaru', model: 'forestor', man_year: 2015, color: 'red' }
       const res = await request(app).post('/api/v1/cars').send(subaru);
       
@@ -24,9 +24,9 @@ describe('car routes', () => {
           id: '1',
           ...subaru,
       });
-  })
+    });
 
-  it('gets a single car by id', async () => {
+    it('gets a single car by id', async () => {
       const subaru = await car_model.insert({
           make: 'subaru',
           model: 'forestor',
@@ -36,7 +36,7 @@ describe('car routes', () => {
           const res = await request(app).get(`/api/v1/cars/${subaru.id}`);
 
           expect(res.body).toEqual(subaru);
-      });
+    });
   
 
     it('gets all cars', async () => {
@@ -66,6 +66,27 @@ describe('car routes', () => {
             .then((res) => {
                 expect(res.body).toEqual([subaru, audi, volkswagen]);
             });
-    })
+    });
+
+    it('updates a car', async () => {
+        const subaru = await car_model.insert({
+            make: 'subaru',
+            model: 'forestor',
+            man_year: 2015,
+            color: 'red',
+        });
+
+        //console.log(subaru);
+
+        const res = await request(app)
+            .put(`/api/v1/cars/${subaru.id}`)
+            .send({ color: 'green' });
+
+        expect(res.body).toEqual({...subaru, color: 'green'});
+
+    });
+
+
+
 }); // <---- END PARENT CODE BLOCK
 
