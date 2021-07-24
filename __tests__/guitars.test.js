@@ -71,6 +71,22 @@ describe('guitar routes', () => {
 
     })
   })
+
+  it('updates a guitar', async () => {
+    const guitar = await guitar_model.insert({
+      manufacturer: 'fender',
+      strings: 6,
+      is_electric: false, 
+
+    })
+
+    const res = await request(app)
+      .put(`/api/v1/guitars/${guitar.id}`)
+      .send({ is_electric: true });
+
+      expect(res.body).toEqual({...guitar, is_electric: true });
+    
+  })
   
 
 }); // <--- END PARENT CODE BLOCK
