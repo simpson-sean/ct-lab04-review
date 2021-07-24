@@ -17,12 +17,12 @@ describe('trek routes', () => {
   });
 
   it('creates a character', async () => {
-      const picard = { name: 'picard', species: 'human', faction: 'starfleet'}
-      const res = await request(app).post('/api/v1/treks').send(picard);
+      const character = { name: 'picard', species: 'human', faction: 'starfleet'}
+      const res = await request(app).post('/api/v1/treks').send(character);
 
       expect(res.body).toEqual({
           id: '1',
-          ...picard,
+          ...character,
       
         });
   });

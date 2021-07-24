@@ -1,6 +1,7 @@
 DROP TABLE IF EXISTS birds;
 DROP TABLE IF EXISTS cars;
 DROP TABLE IF EXISTS trek;
+DROP TABLE IF EXISTS guitars;
 
 
 CREATE TABLE birds (
@@ -23,4 +24,11 @@ CREATE TABLE trek (
     name TEXT NOT NULL, 
     species TEXT NOT NULL,
     faction TEXT NOT NULL
+);
+
+CREATE TABLE guitars (
+    id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    manufacturer TEXT NOT NULL,
+    strings INTEGER NOT NULL,
+    is_electric BOOLEAN NOT NULL
 );
