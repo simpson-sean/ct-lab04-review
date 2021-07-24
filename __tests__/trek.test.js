@@ -40,4 +40,66 @@ describe('trek routes', () => {
     expect(res.body).toEqual(picard);
   })
 
+  it('gets all characters', async () => {
+    const picard = await trek_model.insert({
+      name:'picard',
+      species: 'human',
+      faction: 'starfeleet',
+
+    })
+
+    const worf = await trek_model.insert({
+      name: 'worf',
+      species: 'klingon',
+      faction: 'starfleet',
+
+    })
+
+    const spock = await trek_model.insert({
+      name: 'spock',
+      species: 'vulcan',
+      faction: 'starfleet',
+    })
+
+    return request(app)
+      .get('/api/v1/treks')
+      .then((res) => {
+        expect(res.body).toEqual([picard, worf, spock]);
+
+      })
+  })
+
+  it('updates a character', async () => {
+    const worf = await trek_model.insert({
+      name: 'worf',
+      species: 'klingon',
+      faction: 'starfleet',
+
+    })
+
+    const res = await request(app)
+      .put(`/api/v1/treks/${worf.id}`)
+      .send({ faction: 'klingon empire'});
+
+      expect(res.body).toEqual({...worf, faction: 'klingon empire'});
+
+  })
+
+  it('deletes a character', async () => {
+    const character = await trek_model.insert({
+      name: 'picard',
+      species: 'human',
+      faction: 'starfleet',
+    });
+
+    const res = await request(app)
+      .delete(`/api/v1/treks/${character.id}`);
+    
+    expect(res.body).toEqual({
+      message: `The character ${character.name} has been removed.`
+    });
+
+
+  })
+
 }); // <---- END PARENT CODE BLOCK
