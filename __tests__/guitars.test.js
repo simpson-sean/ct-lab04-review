@@ -88,5 +88,20 @@ describe('guitar routes', () => {
     
   })
   
+  it('deletes a guitar', async () => {
+    const guitar = await guitar_model.insert({
+      manufacturer: 'fender',
+      strings: 6,
+      is_electric: false,
+
+    });
+
+    const res = await request(app)
+      .delete(`/api/v1/guitars/${guitar.id}`);
+
+      expect(res.body).toEqual({
+        message: `The ${guitar.manufacturer} has been removed.`
+      });
+  })
 
 }); // <--- END PARENT CODE BLOCK
