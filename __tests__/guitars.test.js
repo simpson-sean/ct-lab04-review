@@ -21,8 +21,6 @@ describe('guitar routes', () => {
       const guitar = { manufacturer: 'fender', strings: 6, is_electric: false };
       const res = await request(app).post('/api/v1/guitars').send(guitar);
 
-      console.log(res.body);
-
       expect(res.body).toEqual({
           id: '1',
           ...guitar,
@@ -32,5 +30,47 @@ describe('guitar routes', () => {
 
       
   });
+
+  it('gets a guitar by id', async () => {
+    const guitar = await guitar_model.insert({
+      manufacturer: 'fender',
+      strings: 6,
+      is_electric: false,
+    });
+
+    const res = await request(app).get(`/api/v1/guitars/${guitar.id}`);
+    
+    expect(res.body).toEqual(guitar);    
+  })
+
+  it('gets all guitars', async () => {
+    const fender = await guitar_model.insert({
+      manufacturer: 'fender',
+      strings: 6,
+      is_electric: false,
+
+    })
+
+    const ibanez = await guitar_model.insert({
+      manufacturer: 'ibanez',
+      strings: 12,
+      is_electric: true,
+    })
+
+    const gibson = await guitar_model.insert({
+      manufacturer: 'gibson',
+      strings: 4,
+      is_electric: true,
+
+    })
+
+    return request(app)
+    .get('/api/v1/guitars')
+    .then((res) => {
+      expect(res.body).toEqual([ fender, ibanez, gibson ]);
+
+    })
+  })
+  
 
 }); // <--- END PARENT CODE BLOCK

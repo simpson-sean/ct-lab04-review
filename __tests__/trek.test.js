@@ -28,16 +28,16 @@ describe('trek routes', () => {
   });
 
   it('gets a character by id', async () => {
-    const picard = await trek_model.insert({
+    const character = await trek_model.insert({
       name: 'picard',
       species: 'human',
       faction: 'starfleet',
 
     });
 
-    const res = await request(app).get(`/api/v1/treks/${picard.id}`);
+    const res = await request(app).get(`/api/v1/treks/${character.id}`);
 
-    expect(res.body).toEqual(picard);
+    expect(res.body).toEqual(character);
   })
 
   it('gets all characters', async () => {
