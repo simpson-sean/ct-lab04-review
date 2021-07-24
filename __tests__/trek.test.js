@@ -27,4 +27,17 @@ describe('trek routes', () => {
         });
   });
 
+  it('gets a character by id', async () => {
+    const picard = await trek_model.insert({
+      name: 'picard',
+      species: 'human',
+      faction: 'starfleet',
+
+    });
+
+    const res = await request(app).get(`/api/v1/treks/${picard.id}`);
+
+    expect(res.body).toEqual(picard);
+  })
+
 }); // <---- END PARENT CODE BLOCK
