@@ -76,8 +76,6 @@ describe('car routes', () => {
             color: 'red',
         });
 
-        //console.log(subaru);
-
         const res = await request(app)
             .put(`/api/v1/cars/${subaru.id}`)
             .send({ color: 'green' });
@@ -85,6 +83,21 @@ describe('car routes', () => {
         expect(res.body).toEqual({...subaru, color: 'green'});
 
     });
+
+    it('deletes a car', async () => {
+        const car = await car_model.insert({
+            make: 'subaru',
+            model: 'forestor',
+            man_year: 2015,
+            color: 'red',
+        });
+
+        const res = await request(app).delete(`/api/v1/cars/${car.id}`);
+
+        expect(res.body).toEqual({
+            message: `The car ${car.make} ${car.model} was removed from inventory.`
+        });
+    })
 
 
 
